@@ -17,7 +17,7 @@ all.each do |title,id|
   url = "http://dl.acm.org/tab_about.cfm?id=#{id}&type=proceeding&parent_id=#{id}&parent_type=proceeding"
   doc = Nokogiri::HTML(open(url))
   ids = doc.search('a[href^="citation.cfm"]').collect{|m|m['href'][/id=(\d+)/,1]}
-  done = File.read(fname).grep(/acmid/).collect{|m|m[/\d+/]}.to_set
+  done = File.exist?(fname) ? File.read(fname).grep(/acmid/).collect{|m|m[/\d+/]}.to_set : Set.new
   ids.each do |each|
     p each
     next if done.include?(each)
